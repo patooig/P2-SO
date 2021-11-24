@@ -5,11 +5,11 @@
 #include <unistd.h>
 
 pthread_barrier_t mibarrerabonita; // Barrera
-int M;
+int M; // Etapas
 
 
 void* f(void *id){
-    int id_h = *(int*)id;
+    int id_h = *(int*)id; // id de hebra
     
     for (int i = 0; i < M; i++){
 
@@ -18,7 +18,6 @@ void* f(void *id){
         sleep(espera); // "TRABAJO DE LA HEBRA"
         pthread_barrier_wait(&mibarrerabonita); // Hebra espera
     }
-    
     
     printf("Hebra %d termina\n",id_h);
 
