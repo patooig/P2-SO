@@ -1,6 +1,7 @@
 #include <pthread.h>
 #include <stdio.h>
 #include "Monitor.h"
+#include <iostream>
 
 using namespace std;
 
@@ -26,12 +27,7 @@ void Monitor::espera(){
 
 void Monitor::mandasignal(){
     //No es necesario mutex, ultima hebra entra acá
-
-    //if(contador == num_hebras){ // Saco el if???'????????????
     pthread_cond_broadcast(&c); // Despertar todas las hebras
+    cout << endl;
     contador = 0;
-    //}
-
-    
-
 }

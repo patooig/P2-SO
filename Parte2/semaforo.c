@@ -9,7 +9,7 @@
 
 sem_t mutex;
 sem_t b;
-int cont = 0;
+int cont;
 
 int N,M;
 
@@ -30,6 +30,23 @@ void barrera(){
         for(int i = 1; i < N; i++){
             sem_post(&b); // signal
         }
+    }
+}
+void barrera_mala(){
+
+  
+    cont++;
+    if(cont < N){
+        sem_wait(&b);
+    }
+    else{
+
+        printf("\n"); //Salto de linea para ver las etapas
+
+        for(int i = 1; i < N; i++){
+            sem_post(&b); // signal
+        }
+        cont = 0;
     }
 }
 
@@ -62,6 +79,7 @@ int main(int argc, char **argv){
     //Se inicializa el semáforo mutex en 1
     sem_init(&mutex, 1, 1);
 
+
     //Se inicializa el semáforo b en 0
     sem_init(&b, 1, 0);
 
@@ -70,6 +88,7 @@ int main(int argc, char **argv){
     //Crear las N hebras
     int myids[N];
     pthread_t ids[N];
+    cont = 0;
     
     for (i = 0; i < N; i++){
         myids[i] = i;
