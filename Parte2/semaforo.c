@@ -30,7 +30,6 @@ void barrera(){
         for(int i = 1; i < N; i++){
             sem_post(&b); // signal
         }
-        
     }
 }
 
@@ -48,44 +47,6 @@ void* f(void *id){
         
         barrera(); //Llama a la barrera
     }
-    
-    printf("Hebra %d termina\n",id_h);
-
-    return NULL;
-}
-
-//ESTA BARRERA FUNCIONA BIEN =/
-void barreraMala(){
-
-    //sem_wait(&mutex);
-    cont++;
-    if(cont < N){
-        //sem_post(&mutex);
-        sem_wait(&b);
-    }
-    else{
-        //sem_post(&mutex); //signal
-        cont = 0;
-
-        printf("\n"); //Salto de linea para ver las etapas
-
-        for(int i = 1; i < N; i++){
-            sem_post(&b); // signal
-        }   
-    }
-}
-
-void* f2(void *id){
-    int id_h = *(int*)id; // id_h = id hebra
-    
-    for (int i = 0; i < M; i++){
-
-        int espera = 1 + rand() % 3;
-        printf("M = %d, Hebra %d espera por %d seg\n",i+1,id_h,espera);
-        sleep(espera); // "TRABAJO DE LA HEBRA"
-        barreraMala();
-    }
-    
     
     printf("Hebra %d termina\n",id_h);
 
@@ -117,19 +78,6 @@ int main(int argc, char **argv){
 
     for (i=0; i < N; i++) {
         pthread_join(ids[i], NULL);
-    }
-
-    printf("\n----------------\n\nImplementacion Mala:\n\n");
-
-    pthread_t ids2[N];
-
-    for (i = 0; i < N; i++){
-        myids[i] = i;
-        pthread_create(&ids2[i], NULL, f2, &myids[i]);
-    }
-    
-     for (int i=0; i < N; i++) {
-        pthread_join(ids2[i], NULL);
     }
 
     return 0;
