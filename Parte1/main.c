@@ -10,10 +10,10 @@ int M; // Etapas
 
 void* f(void *id){
     int id_h = *(int*)id; // id de hebra
-    
+    int espera;
     for (int i = 0; i < M; i++){
 
-        int espera = 1 + rand() % 3;
+        espera = 1 + rand() % 3;
         printf("M = %d, Hebra %d espera por %d seg\n",i+1,id_h,espera);
         sleep(espera); // "TRABAJO DE LA HEBRA"
         pthread_barrier_wait(&mibarrerabonita); // Hebra espera
