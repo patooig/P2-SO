@@ -34,20 +34,18 @@ void barrera(){
 }
 void barrera_mala(){
 
-  
+    sem_wait(&mutex);
     cont++;
-    if(cont < N){
-        sem_wait(&b);
-    }
-    else{
-
-        printf("\n"); //Salto de linea para ver las etapas
-
-        for(int i = 1; i < N; i++){
-            sem_post(&b); // signal
-        }
+    if(cont == N){
         cont = 0;
+        sem_post(&b);
+        printf("\n");
+        
     }
+    sem_post(&mutex);
+    sem_wait(&b);
+    sem_post(&b);
+
 }
 
 //Función que llaman las hebras
@@ -62,7 +60,7 @@ void* f(void *id){
         printf("M = %d, Hebra: %d espera por %d seg\n",i+1,id_h,espera);
         sleep(espera); // "TRABAJO DE LA HEBRA"
         
-        barrera(); //Llama a la barrera
+        barrera_mala(); //Llama a la barrera
     }
     
     printf("Hebra %d termina\n",id_h);
