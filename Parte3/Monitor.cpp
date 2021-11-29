@@ -27,7 +27,8 @@ void Monitor::espera(){
 
 void Monitor::mandasignal(){
     //No es necesario mutex, ultima hebra entra acá
+    contador = 0;
     pthread_cond_broadcast(&c); // Despertar todas las hebras
     cout << endl;
-    contador = 0;
+    
 }
