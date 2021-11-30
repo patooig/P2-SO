@@ -7,9 +7,10 @@
 pthread_barrier_t mibarrerabonita; // Barrera
 int M; // Etapas
 
-
 void* f(void *id){
     int id_h = *(int*)id; // id de hebra
+    
+    //Tiempo de espera de la hebra (trabajo que realiza)
     int espera;
     for (int i = 0; i < M; i++){
 
@@ -47,7 +48,6 @@ int main(int argc, char **argv){
     
     //Hebra main espera
     for ( int j = 0; j < M; j++){
-        printf("espero..\n");
         pthread_barrier_wait(&mibarrerabonita);
     }
 
